@@ -2,6 +2,8 @@ package OX::RouteBuilder::REST;
 use Moose;
 use namespace::autoclean;
 
+our $VERSION=0.001;
+
 # ABSTRACT: OX::RouteBuilder which routes to an action method in a controller class based on HTTP verbs
 
 use Try::Tiny;
