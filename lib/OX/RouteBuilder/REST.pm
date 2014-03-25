@@ -8,10 +8,23 @@ use Try::Tiny;
 
 with 'OX::RouteBuilder';
 
-sub import {
+sub import_DIES_more_than_one_toplevel_router {
+#sub import {
     my $caller = caller;
     my $meta = Moose::Util::find_meta($caller);
     $meta->add_route_builder('OX::RouteBuilder::REST');
+}
+
+sub import_NOT_WORKING_all_routes_404 {
+#sub import {
+    my $caller = caller;
+    my $meta = Moose::Util::find_meta($caller);
+    $meta->add_route_builder('OX::RouteBuilder::REST');
+    $meta->add_route_builder('OX::RouteBuilder::ControllerAction');
+    $meta->add_route_builder('OX::RouteBuilder::HTTPMethod');
+    $meta->add_route_builder('OX::RouteBuilder::Code');
+
+    $OX::CURRENT_CLASS=$meta;
 }
 
 sub compile_routes {
