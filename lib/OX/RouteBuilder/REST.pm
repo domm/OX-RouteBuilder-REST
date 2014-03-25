@@ -105,7 +105,7 @@ __END__
       isa => 'MyApp::Controller::Thing',
   );
 
-  router as {
+  router [map {'OX::RouteBuilder::'.$_} qw(ControllerAction Code HTTPMethod REST )] => as {
       route '/thing'     => 'REST.thing.root';
       route '/thing/:id' => 'REST.thing.item';
   };
