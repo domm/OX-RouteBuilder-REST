@@ -27,6 +27,12 @@ sub hase {
 
 }
 
+sub link {
+    my ($self, $req) = @_;
+    return $self->_view($req, $req->uri_for('REST.thing.item'));#{controller=>'thing',action=>'item_GET'}));
+
+}
+
 sub _view {
     my ($self, $req, $data) = @_;
     return [
