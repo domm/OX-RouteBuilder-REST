@@ -139,17 +139,38 @@ __END__
 
 =head1 DESCRIPTION
 
-This is an L<OX::RouteBuilder> which allows to a controller class based on the
-HTTP method used in the request. The C<action_spec> should be a string
-corresponding to a service which provides a controller instance. When a request
-is made for the given path, it will look in that class for a method which
-corresponds to the lowercased version of the HTTP method used in the request
-(for instance, C<get>, C<post>, etc). If no method is found, it will fall back
-to looking for a method named C<any>. If that isn't found either, an error will
-be raised.
+This is an L<OX::RouteBuilder> which routes to an action method in a
+controller class based on HTTP verbs. It's a bit of a mixture between
+L<OX::RouteBuilder::ControllerAction> and
+L<OX::RouteBuilder::HTTPMethod>.
 
-C<action> will automatically be added to the route as a default, as well as
-C<name> (which will be set to the same thing as C<action>).
+The C<action_spec> should be a string in the form
+C<"REST.$controller.$action">, where C<$controller> is the name of a
+service which provides a controller instance. For each HTTP verb you
+want to support you will need to set up an action with the name
+C<$action_$verb> (e.g. C<$action_GET>, C<$action_PUT>, etc). If no
+matching action-verb-method is found, a 404 error will be returned.
+
+C<controller> and C<action> will also be automatically added as
+defaults for the route, as well as C<name> (which will be set to
+C<"REST.$controller.$action">).
+
+To generate a link to an action, use C<uri_for> with either the name
+(eg C<"REST.$controller.$action">), or by passing a HashRef C<{
+    controller => $controller, action => $action }>. See F<t/test.t>
+    for some examples.
+
+Please note that due to some constrains how L<OX::RouteBuilder> are
+loaded in C<OX>, you have to manually load all relevant
+C<RouteBuilders> when specifiying the C<routes>:
+
+  router [ map
+           {'OX::RouteBuilder::'.$_}
+           qw(ControllerAction Code HTTPMethod REST )
+         ] => as {
+      route '/thing'     => 'REST.thing.root';
+  };
+
 
 =for Pod::Coverage
   import
