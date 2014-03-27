@@ -94,7 +94,7 @@ __END__
       isa => 'MyApp::Controller::Thing',
   );
 
-  router [map {'OX::RouteBuilder::'.$_} qw(ControllerAction Code HTTPMethod REST )] => as {
+  router as {
       route '/thing'     => 'REST.thing.root';
       route '/thing/:id' => 'REST.thing.item';
   };
@@ -131,6 +131,9 @@ controller class based on HTTP verbs. It's a bit of a mixture between
 L<OX::RouteBuilder::ControllerAction> and
 L<OX::RouteBuilder::HTTPMethod>.
 
+To enable this RouteBuilder, you need to C<use OX::RouteBuilder::REST>
+in your main application class.
+
 The C<action_spec> should be a string in the form
 C<"REST.$controller.$action">, where C<$controller> is the name of a
 service which provides a controller instance. For each HTTP verb you
@@ -146,17 +149,6 @@ To generate a link to an action, use C<uri_for> with either the name
 (eg C<"REST.$controller.$action">), or by passing a HashRef C<{
     controller => $controller, action => $action }>. See F<t/test.t>
     for some examples.
-
-Please note that due to some constrains how L<OX::RouteBuilder> are
-loaded in C<OX>, you have to manually load all relevant
-C<RouteBuilders> when specifiying the C<routes>:
-
-  router [ map
-           {'OX::RouteBuilder::'.$_}
-           qw(ControllerAction Code HTTPMethod REST )
-         ] => as {
-      route '/thing'     => 'REST.thing.root';
-  };
 
 
 =for Pod::Coverage
