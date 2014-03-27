@@ -1,6 +1,7 @@
 package Example;
 use OX;
 use ExampleController;
+use OX::RouteBuilder::REST;
 
 has thing => (
     is  => 'ro',
