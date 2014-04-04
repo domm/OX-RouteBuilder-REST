@@ -1,8 +1,7 @@
 Revision history for OX::RouteBuilder::REST
 
-0.003   ___ pending OX release
-    - auto-registering OX::RouteBuilder::REST now works after this change to OX
-      https://github.com/iinteractive/OX/commit/43929db93a25683fdbf751a3751989ac929eca8b
+0.003   2014-04-04T08:42:34+0200
+    - auto-registering OX::RouteBuilder::REST now works with OX 0.14
 
 
 0.002   2014-03-25T19:15:47+0100
