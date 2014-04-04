@@ -2,7 +2,7 @@ package OX::RouteBuilder::REST;
 use Moose;
 use namespace::autoclean;
 
-our $VERSION=0.003;
+our $VERSION = 0.003;
 
 # ABSTRACT: OX::RouteBuilder which routes to an action method in a controller class based on HTTP verbs
 
@@ -12,7 +12,7 @@ with 'OX::RouteBuilder';
 
 sub import {
     my $caller = caller;
-    my $meta = Moose::Util::find_meta($caller);
+    my $meta   = Moose::Util::find_meta($caller);
     $meta->add_route_builder('OX::RouteBuilder::REST');
 }
 
@@ -20,39 +20,36 @@ sub compile_routes {
     my $self = shift;
     my ($app) = @_;
 
-    my $spec = $self->route_spec;
+    my $spec   = $self->route_spec;
     my $params = $self->params;
-    my ($defaults, $validations) = $self->extract_defaults_and_validations($params);
+    my ( $defaults, $validations ) =
+        $self->extract_defaults_and_validations($params);
     $defaults = { %$spec, %$defaults };
 
     my $target = sub {
         my ($req) = @_;
 
         my $match = $req->mapping;
-        my $c = $match->{controller};
-        my $a = $match->{action};
+        my $c     = $match->{controller};
+        my $a     = $match->{action};
 
         my $err;
         my $s = try { $app->fetch($c) } catch { ($err) = split "\n"; undef };
         return [
-            500,
-            [],
-            ["Cannot resolve $c in " . blessed($app) . ": $err"]
-        ] unless $s;
+            500, [], [ "Cannot resolve $c in " . blessed($app) . ": $err" ]
+            ]
+            unless $s;
 
         my $component = $s->get;
-        my $method = uc($req->method);
-        my $action = $a .'_'.$method;
+        my $method    = uc( $req->method );
+        my $action    = $a . '_' . $method;
 
-        if ($component->can($action)) {
+        if ( $component->can($action) ) {
             return $component->$action(@_);
         }
         else {
-            return [
-                500,
-                [],
-                ["Component $component has no method $action"]
-            ];
+            return [ 500, [],
+                ["Component $component has no method $action"] ];
         }
     };
 
