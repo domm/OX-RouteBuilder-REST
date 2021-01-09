@@ -1,11 +1,10 @@
 package OX::RouteBuilder::REST;
-use Moose;
-use namespace::autoclean;
-
-our $VERSION = 0.003;
 
 # ABSTRACT: OX::RouteBuilder which routes to an action method in a controller class based on HTTP verbs
+# VERSION
 
+use Moose;
+use namespace::autoclean;
 use Try::Tiny;
 
 with 'OX::RouteBuilder';
@@ -154,5 +153,4 @@ To generate a link to an action, use C<uri_for> with either the name
   parse_action_spec
 
 =cut
-
 
