@@ -3,7 +3,7 @@
 
 requires "Moose" => "0";
 requires "OX::RouteBuilder" => "0";
-requires "Try::Tiny" => "0";
+requires "Syntax::Keyword::Try" => "0";
 requires "namespace::autoclean" => "0";
 
 on 'build' => sub {
