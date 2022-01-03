@@ -5,7 +5,7 @@ package OX::RouteBuilder::REST;
 
 use Moose;
 use namespace::autoclean;
-use Try::Tiny;
+use Syntax::Keyword::Try;
 
 with 'OX::RouteBuilder';
 
@@ -33,7 +33,10 @@ sub compile_routes {
         my $a     = $match->{action};
 
         my $err;
-        my $s = try { $app->fetch($c) } catch { ($err) = split "\n"; undef };
+        my $s = do {
+            try { $app->fetch($c) }
+            catch ($e) { ($err) = split "\n", $e; undef }
+        };
         return [
             500, [], [ "Cannot resolve $c in " . blessed($app) . ": $err" ]
             ]
