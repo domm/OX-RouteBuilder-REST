@@ -1,6 +1,8 @@
 Revision history for OX::RouteBuilder::REST
 
 {{$NEXT}}
+
+0.006     2023-02-15 13:06:49+01:00
     - HEAD requests are now routed to $action_GET
     - unimplemented verbs/methods return 501 instead of unspecific 501
 
