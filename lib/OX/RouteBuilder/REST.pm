@@ -46,6 +46,18 @@ sub compile_routes {
         if ( $component->can($action) ) {
             return $component->$action(@_);
         }
+        elsif ($method eq 'HEAD' && $component->can($a . '_GET')) {
+            $action = $a . '_GET';
+            my $res = $component->$action(@_);
+            if (ref($res) eq 'ARRAY') {
+                $res->[2]=[''];
+            }
+            elsif (blessed($res) && $res->can('content')) {
+                $res->content('');
+            }
+            # else don't mess with content..
+            return $res;
+        }
         else {
             return [ 500, [],
                 ["Component $component has no method $action"] ];
@@ -140,6 +152,10 @@ matching action-verb-method is found, a 404 error will be returned.
 C<controller> and C<action> will also be automatically added as
 defaults for the route, as well as C<name> (which will be set to
 C<"REST.$controller.$action">).
+
+A C<HEAD> request will be redirect to C<GET> (with a potential
+response body removed), unless you implement a method named
+C<$action_HEAD>.
 
 To generate a link to an action, use C<uri_for> with either the name
 (eg C<"REST.$controller.$action">), or by passing a HashRef C<<{
