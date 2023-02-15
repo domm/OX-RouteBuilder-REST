@@ -4,7 +4,7 @@ OX::RouteBuilder::REST - OX::RouteBuilder which routes to an action method in a 
 
 # VERSION
 
-version 0.005
+version 0.006
 
 # SYNOPSIS
 
@@ -61,7 +61,7 @@ The `action_spec` should be a string in the form
 service which provides a controller instance. For each HTTP verb you
 want to support you will need to set up an action with the name
 `$action_$verb` (e.g. `$action_GET`, `$action_PUT`, etc). If no
-matching action-verb-method is found, a 404 error will be returned.
+matching action-verb-method is found, a 501 error will be returned.
 
 `controller` and `action` will also be automatically added as
 defaults for the route, as well as `name` (which will be set to
