@@ -59,8 +59,8 @@ sub compile_routes {
             return $res;
         }
         else {
-            return [ 500, [],
-                ["Component $component has no method $action"] ];
+            return [ 501, [],
+                ["Controller '$c' (".blessed($component).") has no method '$action'"] ];
         }
     };
 
@@ -147,7 +147,7 @@ C<"REST.$controller.$action">, where C<$controller> is the name of a
 service which provides a controller instance. For each HTTP verb you
 want to support you will need to set up an action with the name
 C<$action_$verb> (e.g. C<$action_GET>, C<$action_PUT>, etc). If no
-matching action-verb-method is found, a 404 error will be returned.
+matching action-verb-method is found, a 501 error will be returned.
 
 C<controller> and C<action> will also be automatically added as
 defaults for the route, as well as C<name> (which will be set to
